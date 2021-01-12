@@ -1,23 +1,23 @@
-const {User}  = require("../models/User");
+const { User } = require("../models/User");
 
-let authoring = (req,res,next) =>{
-     
+let auth = (req, res, next) => {
+
      const token = req.cookies.x_auth;
 
-     User.findByToken(token, (err, user)=>{
-          if (err){return err}
-          if(!user){
+     User.findByToken(token, (err, user) => {
+          if (err) { return err }
+          if (!user) {
                return res.json({
-                    isAuth:false,
-                    error:true,
-               })    
+                    isAuth: false,
+                    error: true,
+               })
           }
           if (user) {
                req.token = token;
-               req.user= user;
+               req.user = user;
                next();
           }
      })
 }
 
-module.exports = {authoring}
+module.exports = { auth }
